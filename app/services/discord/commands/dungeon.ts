@@ -30,7 +30,7 @@ export = {
         .setName("dungeon")
         .setDescription("Replies with your Crypts and Caverns dungeon details")
         .addIntegerOption((option) =>
-            option.setName("int").setDescription("Enter dungeon Id")
+            option.setName("int").setDescription("Enter dungeon Id").setRequired(true)
         ),
     async execute(interaction: any) {
         const integer = interaction.options.getInteger("int");
