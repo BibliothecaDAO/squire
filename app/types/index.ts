@@ -32,3 +32,13 @@ export interface Wonder {
     image: string
     external_url: string
 }
+
+export interface IndexerEvent {
+    body: BattleEvent
+}
+
+export interface BattleEvent {
+    txHash: string
+    walletAddress: string
+    raidLoot: { [name: string]: string }
+}
