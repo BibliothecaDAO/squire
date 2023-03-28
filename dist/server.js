@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.blobert_chat = exports.visir_chat = exports.pinecone = void 0;
+exports.blobert_chat = exports.visir_chat = exports.pinecone = exports.prisma = void 0;
 require('dotenv').config();
 const pinecone_1 = require("@pinecone-database/pinecone");
 const express_1 = __importDefault(require("express"));
@@ -11,23 +11,18 @@ const agents_1 = require("./agents");
 const router_1 = __importDefault(require("./router"));
 const discord_1 = require("./services/discord");
 const deploy_1 = require("./services/discord/deploy");
+const client_1 = require("@prisma/client");
 // import { Database } from 'sqlite3';
 // import { createUsersTable } from './sqlite';
 // import { Client as PostgresClient } from 'pg';
 const app = (0, express_1.default)();
 const port = 3000;
+// Discord
 discord_1.client;
 (0, deploy_1.setupDiscordCommands)();
+exports.prisma = new client_1.PrismaClient();
+// Pincone
 exports.pinecone = new pinecone_1.PineconeClient();
-// export const db = new Database('db.sqlite');
-// export const client = new PostgresClient({
-//     host: 'app-1de1be1e-ff98-4f77-a735-68b1c35ad66c-do-user-10698562-0.b.db.ondigitalocean.com',
-//     user: 'doadmin',
-//     password: 'tQ8dnc03mOBrSjfx',
-//     database: 'squire',
-//     port: 25060,
-//     ssl: true
-// });
 async function main() {
     await exports.pinecone.init({
         environment: "us-central1-gcp",
