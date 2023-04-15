@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
-import { addPlayer } from "../../../prisma/index";
+// import { addPlayer } from "../../../prisma/index";
 
 const addressCommand = {
     data: new SlashCommandBuilder()
@@ -13,7 +13,7 @@ const addressCommand = {
 
         console.log(interaction.user.id)
 
-        await addPlayer(address, interaction.user.id)
+        // await addPlayer(address, interaction.user.id)
 
 
         await interaction.reply('Successfully added!');
