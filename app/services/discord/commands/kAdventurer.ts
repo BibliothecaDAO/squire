@@ -54,7 +54,7 @@ const adventurerCommand = {
                     },
                     {
                         name: 'noble',
-                        value: 'royal with a gold crown with jewels',
+                        value: 'royal with a gold crown',
                     },
                     {
                         name: 'hunter',
@@ -96,6 +96,24 @@ const adventurerCommand = {
                 .setRequired(true)
                 .addChoices(
                     {
+                        name: 'Hippo',
+                        value:
+                            'powerful hippo standing in water with a spear and a shield and a crown',
+
+                    },
+                    {
+                        name: 'Elephant',
+                        value:
+                            'old war elephant',
+
+                    },
+                    {
+                        name: 'Rhino',
+                        value:
+                            'strong powerful rhino with a spear and a shield and a crown',
+
+                    },
+                    {
                         name: 'Elf',
                         value:
                             'mysterious perfectly looking elf with a smirk and pointy ears and gold necklace',
@@ -118,7 +136,7 @@ const adventurerCommand = {
                     },
                     {
                         name: 'Orc',
-                        value: 'ugly hideous green orc with a tooth necklace',
+                        value: 'ugly hideous green orc',
 
                     },
                     {
@@ -129,11 +147,6 @@ const adventurerCommand = {
                     {
                         name: 'Goblin',
                         value: 'disgusting goblin',
-
-                    },
-                    {
-                        name: 'Fish',
-                        value: 'a person with a fish head with gills on the neck',
 
                     },
                     { name: 'Cat', value: 'cute cat humanoid ' },
@@ -197,7 +210,7 @@ const adventurerCommand = {
             "ai-forever/kandinsky-2:65a15f6e3c538ee4adf5142411455308926714f7d3f5c940d9f7bc519e0e5c1a",
             {
                 input: {
-                    prompt: `${createPrompt({ sex, race, skin, pattern, hair, eyes, occupation })}. In the style of a realist painting.`,
+                    prompt: `${createPrompt({ sex, race, skin, pattern, hair, eyes, occupation })}. In the style of a realist painting. Detailed, realistic, high quality, perfect, beautiful, saturated, color`,
                     num_inference_steps: 100
                 }
             }
