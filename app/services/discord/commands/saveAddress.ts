@@ -9,7 +9,7 @@ const addressCommand = {
             option.setName("address").setDescription("Enter your StarkNet Address")
         ),
     async execute(interaction: any) {
-        const address = interaction.options.getString("address");
+        // const address = interaction.options.getString("address");
 
         console.log(interaction.user.id)
 
