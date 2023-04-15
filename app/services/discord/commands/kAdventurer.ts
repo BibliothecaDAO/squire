@@ -6,13 +6,13 @@ import Replicate from "replicate";
 
 
 interface IAdventurer {
-    sex: string;
-    race: string;
-    skin: string;
-    hair: string;
-    eyes: string;
-    occupation: string;
-    pattern: string;
+    sex?: string;
+    race?: string;
+    skin?: string;
+    hair?: string;
+    eyes?: string;
+    occupation?: string;
+    pattern?: string;
 
 }
 
@@ -46,7 +46,7 @@ const adventurerCommand = {
                 .addChoices(
                     {
                         name: 'mage',
-                        value: 'mage with a wizards hat',
+                        value: 'mage with a pointy wizards hat',
                     },
                     {
                         name: 'warrior',
@@ -61,36 +61,6 @@ const adventurerCommand = {
                         value: 'deadly assassin with a hood',
                     },)
         ).addStringOption(option =>
-            option.setName('skin')
-                .setDescription('Select Skin')
-                .setRequired(true)
-                .addChoices(
-                    { name: 'light', value: 'white skin' },
-                    { name: 'dark', value: 'brown skin' },
-                    { name: 'very dark', value: 'black skin' },
-                    { name: 'iridescent', value: 'iridescent skin' },
-                    { name: 'red', value: 'red skin' },
-                    { name: 'blue', value: 'blue skin' },
-                    { name: 'green', value: 'green skin' },)
-        ).addStringOption(option =>
-            option.setName('hair')
-                .setDescription('Select Hair')
-                .setRequired(true)
-                .addChoices(
-                    { name: 'blonde', value: 'blonde hair' },
-                    { name: 'black', value: 'black hair' },
-                    { name: 'red', value: 'red hair' },
-                    { name: 'none', value: 'bald' },)
-        ).addStringOption(option =>
-            option.setName('eyes')
-                .setDescription('Select Eyes')
-                .setRequired(true)
-                .addChoices(
-                    { name: 'blue', value: 'blue eyes' },
-                    { name: 'red', value: 'red eyes' },
-                    { name: 'black', value: 'black eyes' },
-                    { name: 'yellow', value: 'yellow eyes' },)
-        ).addStringOption(option =>
             option.setName('race')
                 .setDescription('Select Race')
                 .setRequired(true)
@@ -98,7 +68,7 @@ const adventurerCommand = {
                     {
                         name: 'Hippo',
                         value:
-                            'powerful hippo standing in water with a spear and a shield and a crown',
+                            'strong muscular hippo',
 
                     },
                     {
@@ -111,6 +81,18 @@ const adventurerCommand = {
                         name: 'Rhino',
                         value:
                             'strong powerful rhino with a spear and a shield and a crown',
+
+                    },
+                    {
+                        name: 'Orangutan',
+                        value:
+                            'wise orangutan with a staff',
+
+                    },
+                    {
+                        name: 'Chimpanzee',
+                        value:
+                            'snarling chimpanzee with a spear and a shield',
 
                     },
                     {
@@ -182,15 +164,12 @@ const adventurerCommand = {
     async execute(interaction: any) {
         const sex = interaction.options.getString("sex");
         const race = interaction.options.getString("race");
-        const skin = interaction.options.getString("skin");
         const pattern = interaction.options.getString("pattern");
-        const hair = interaction.options.getString("hair");
-        const eyes = interaction.options.getString("eyes");
         const occupation = interaction.options.getString("occupation");
 
         const prompt = {
             "input": {
-                "prompt": `${createPrompt({ sex, race, skin, pattern, hair, eyes, occupation })}`,
+                "prompt": `${createPrompt({ sex, race, pattern, occupation })}`,
                 "negative_prompt": "cartoon, imperfect, poor quality, saturated, unrealistic",
                 "width": 768,
                 "seed": 2,
@@ -210,7 +189,8 @@ const adventurerCommand = {
             "ai-forever/kandinsky-2:65a15f6e3c538ee4adf5142411455308926714f7d3f5c940d9f7bc519e0e5c1a",
             {
                 input: {
-                    prompt: `${createPrompt({ sex, race, skin, pattern, hair, eyes, occupation })}. In the style of a realist painting. Detailed, realistic, high quality, perfect, beautiful, saturated, color`,
+                    prompt: `${createPrompt({ sex, race, pattern, occupation })}. In the style of a realist painting. Detailed, realistic, high quality, perfect, beautiful, saturated, color`,
+                    "negative_prompt": "cartoon, imperfect, poor quality, saturated, unrealistic",
                     num_inference_steps: 100
                 }
             }
