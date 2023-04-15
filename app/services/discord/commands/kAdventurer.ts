@@ -1,8 +1,9 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 // import { adventurerTraits } from "../../../services/utils/adventurer";
-import { createImage } from '../../../services/utils/helpers';
+// import { createImage } from '../../utils/helpers';
+import Replicate from "replicate";
 
-const MODEL = "xt10vb0661nbsf";
+
 
 interface IAdventurer {
     sex: string;
@@ -28,7 +29,7 @@ const createPrompt = (props: IAdventurer) => {
 
 const adventurerCommand = {
     data: new SlashCommandBuilder()
-        .setName("adventurer")
+        .setName("kadventurer")
         .setDescription("Build an Adventurer")
         .addStringOption(option =>
             option.setName('sex')
@@ -188,21 +189,32 @@ const adventurerCommand = {
 
         await interaction.deferReply();
 
-        const embed = await createImage(prompt, MODEL)
-            .then((res: any) => {
-                return {
+        const replicate = new Replicate({
+            auth: process.env.REPLICATE_API_TOKEN,
+        });
+
+        const output = await replicate.run(
+            "ai-forever/kandinsky-2:65a15f6e3c538ee4adf5142411455308926714f7d3f5c940d9f7bc519e0e5c1a",
+            {
+                input: {
+                    prompt: `${createPrompt({ sex, race, skin, pattern, hair, eyes, occupation })}. In the style of a realist painting.`,
+                    num_inference_steps: 100
+                }
+            }
+        );
+
+        console.log(output)
+
+        try {
+            await interaction.editReply({
+                embeds: [{
                     title: 'Adventurer',
                     description: prompt.input.prompt,
                     image: {
-                        url: res.split("?")[0]
+                        url: output
                     }
-                };
-
-
-            })
-            .catch((error: any) => interaction.channel.send(error.message));
-        try {
-            await interaction.editReply({ embeds: [embed] });
+                }]
+            });
         } catch (e) {
             console.log(e);
         }

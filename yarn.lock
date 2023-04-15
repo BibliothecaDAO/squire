@@ -2568,6 +2568,11 @@ reflect-metadata@^0.1.13:
   resolved "https://registry.yarnpkg.com/reflect-metadata/-/reflect-metadata-0.1.13.tgz#67ae3ca57c972a2aa1642b10fe363fe32d49dc08"
   integrity sha512-Ts1Y/anZELhSsjMcU605fU9RE4Oi3p5ORujwbIKXfWa+0Zxs510Qrmrce5/Jowq3cHSZSJqBjypxmHarc+vEWg==
 
+replicate@^0.10.0:
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/replicate/-/replicate-0.10.0.tgz#2ee7ea1c2ce469e8818c3f07e36b930ed0b9d671"
+  integrity sha512-bST45r8uzFBscackGnwISzCtXAywT2iG1W9Dmff47lHHMbRCMYQbjR6NNWFYOGaY0TZe2G6m4Oy/qBNGxWCBCg==
+
 request@^2.68.0:
   version "2.88.2"
   resolved "https://registry.yarnpkg.com/request/-/request-2.88.2.tgz#d73c918731cb5a87da047e207234146f664d12b3"
