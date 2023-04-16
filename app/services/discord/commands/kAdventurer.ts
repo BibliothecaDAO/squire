@@ -18,11 +18,11 @@ interface IAdventurer {
 
 
 const createPrompt = (props: IAdventurer) => {
-    const { sex, race, skin, hair, eyes, occupation, pattern } = props;
+    const { sex, race, occupation } = props;
 
     const one = 'a ';
 
-    return one + sex + ' ' + race + ' with ' + skin + ' ' + ' and ' + pattern + ',' + hair + ',' + eyes + ',' + occupation
+    return one + sex + ' ' + race + ' ' + occupation
 };
 
 
@@ -46,7 +46,7 @@ const adventurerCommand = {
                 .addChoices(
                     {
                         name: 'mage',
-                        value: 'mage with a pointy wizards hat',
+                        value: 'mage in silk clothing',
                     },
                     {
                         name: 'warrior',
@@ -54,12 +54,13 @@ const adventurerCommand = {
                     },
                     {
                         name: 'noble',
-                        value: 'royal with a gold crown',
+                        value: 'royal with a golden crown',
                     },
                     {
                         name: 'hunter',
-                        value: 'deadly assassin with a hood',
-                    },)
+                        value: 'deadly assassin with a linen hooded cloak with forehead jewelry and headband',
+                    },
+                )
         ).addStringOption(option =>
             option.setName('race')
                 .setDescription('Select Race')
@@ -86,7 +87,7 @@ const adventurerCommand = {
                     {
                         name: 'Orangutan',
                         value:
-                            'wise orangutan with a staff',
+                            'wise orangutan',
 
                     },
                     {
@@ -136,7 +137,8 @@ const adventurerCommand = {
                         name: 'Frog',
                         value: 'pepe the frog',
 
-                    },)
+                    },
+                )
         ).addStringOption(option =>
             option.setName('patterns')
                 .setDescription('Select Patterns')
@@ -159,23 +161,22 @@ const adventurerCommand = {
 
                     },
                     { name: 'Mayan', value: 'Mayan face patterns' },
-                    { name: 'Aztec', value: 'Aztec face patterns' },)),
+                    { name: 'Aztec', value: 'Aztec face patterns' },
+                )
+        ),
 
     async execute(interaction: any) {
         const sex = interaction.options.getString("sex");
         const race = interaction.options.getString("race");
-        const pattern = interaction.options.getString("pattern");
+        const pattern = interaction.options.getString("patterns");
         const occupation = interaction.options.getString("occupation");
 
         const prompt = {
-            "input": {
-                "prompt": `${createPrompt({ sex, race, pattern, occupation })}`,
-                "negative_prompt": "cartoon, imperfect, poor quality, saturated, unrealistic",
-                "width": 768,
-                "seed": 2,
-                "height": 768
-            }
+            prompt: `${createPrompt({ sex, race, pattern, occupation })}. Realist painting, Detailed, realistic, high quality, perfect, beautiful, saturated, perfect hands`,
+            "negative_prompt": "cartoon, imperfect, poor quality, saturated, unrealistic",
+            num_inference_steps: 100
         }
+
 
         console.log(prompt)
 
@@ -186,13 +187,9 @@ const adventurerCommand = {
         });
 
         const output = await replicate.run(
-            "ai-forever/kandinsky-2:65a15f6e3c538ee4adf5142411455308926714f7d3f5c940d9f7bc519e0e5c1a",
+            "ai-forever/kandinsky-2:601eea49d49003e6ea75a11527209c4f510a93e2112c969d548fbb45b9c4f19f",
             {
-                input: {
-                    prompt: `${createPrompt({ sex, race, pattern, occupation })}. In the style of a realist painting. Detailed, realistic, high quality, perfect, beautiful, saturated, color`,
-                    "negative_prompt": "cartoon, imperfect, poor quality, saturated, unrealistic",
-                    num_inference_steps: 100
-                }
+                input: prompt
             }
         );
 
@@ -202,9 +199,9 @@ const adventurerCommand = {
             await interaction.editReply({
                 embeds: [{
                     title: 'Adventurer',
-                    description: prompt.input.prompt,
+                    description: prompt.prompt,
                     image: {
-                        url: output
+                        url: output[0]
                     }
                 }]
             });
