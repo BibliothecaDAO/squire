@@ -1,34 +1,35 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 // import { adventurerTraits } from "../../../services/utils/adventurer";
-import { createImage } from '../../../services/utils/helpers';
+// import { createImage } from '../../utils/helpers';
+import Replicate from "replicate";
 
-const MODEL = "xt10vb0661nbsf";
+
 
 interface IAdventurer {
-    sex: string;
-    race: string;
-    skin: string;
-    hair: string;
-    eyes: string;
-    occupation: string;
-    pattern: string;
+    sex?: string;
+    race?: string;
+    skin?: string;
+    hair?: string;
+    eyes?: string;
+    occupation?: string;
+    pattern?: string;
 
 }
 
 
 const createPrompt = (props: IAdventurer) => {
-    const { sex, race, skin, hair, eyes, occupation, pattern } = props;
+    const { sex, race, occupation } = props;
 
     const one = 'a ';
 
-    return one + sex + ' ' + race + ' with ' + skin + ' ' + ' and ' + pattern + ',' + hair + ',' + eyes + ',' + occupation
+    return one + sex + ' ' + race + ' ' + occupation
 };
 
 
 
 const adventurerCommand = {
     data: new SlashCommandBuilder()
-        .setName("adventurer")
+        .setName("kadventurer")
         .setDescription("Build an Adventurer")
         .addStringOption(option =>
             option.setName('sex')
@@ -45,7 +46,7 @@ const adventurerCommand = {
                 .addChoices(
                     {
                         name: 'mage',
-                        value: 'mage with a wizards hat',
+                        value: 'mage in silk clothing',
                     },
                     {
                         name: 'warrior',
@@ -53,47 +54,48 @@ const adventurerCommand = {
                     },
                     {
                         name: 'noble',
-                        value: 'royal with a gold crown with jewels',
+                        value: 'royal with a golden crown',
                     },
                     {
                         name: 'hunter',
-                        value: 'deadly assassin with a hood',
-                    },)
-        ).addStringOption(option =>
-            option.setName('skin')
-                .setDescription('Select Skin')
-                .setRequired(true)
-                .addChoices(
-                    { name: 'light', value: 'white skin' },
-                    { name: 'dark', value: 'brown skin' },
-                    { name: 'very dark', value: 'black skin' },
-                    { name: 'iridescent', value: 'iridescent skin' },
-                    { name: 'red', value: 'red skin' },
-                    { name: 'blue', value: 'blue skin' },
-                    { name: 'green', value: 'green skin' },)
-        ).addStringOption(option =>
-            option.setName('hair')
-                .setDescription('Select Hair')
-                .setRequired(true)
-                .addChoices(
-                    { name: 'blonde', value: 'blonde hair' },
-                    { name: 'black', value: 'black hair' },
-                    { name: 'red', value: 'red hair' },
-                    { name: 'none', value: 'bald' },)
-        ).addStringOption(option =>
-            option.setName('eyes')
-                .setDescription('Select Eyes')
-                .setRequired(true)
-                .addChoices(
-                    { name: 'blue', value: 'blue eyes' },
-                    { name: 'red', value: 'red eyes' },
-                    { name: 'black', value: 'black eyes' },
-                    { name: 'yellow', value: 'yellow eyes' },)
+                        value: 'deadly assassin with a linen hooded cloak with forehead jewelry and headband',
+                    },
+                )
         ).addStringOption(option =>
             option.setName('race')
                 .setDescription('Select Race')
                 .setRequired(true)
                 .addChoices(
+                    {
+                        name: 'Hippo',
+                        value:
+                            'strong muscular hippo',
+
+                    },
+                    {
+                        name: 'Elephant',
+                        value:
+                            'old war elephant',
+
+                    },
+                    {
+                        name: 'Rhino',
+                        value:
+                            'strong powerful rhino with a spear and a shield and a crown',
+
+                    },
+                    {
+                        name: 'Orangutan',
+                        value:
+                            'wise orangutan',
+
+                    },
+                    {
+                        name: 'Chimpanzee',
+                        value:
+                            'snarling chimpanzee with a spear and a shield',
+
+                    },
                     {
                         name: 'Elf',
                         value:
@@ -117,7 +119,7 @@ const adventurerCommand = {
                     },
                     {
                         name: 'Orc',
-                        value: 'ugly hideous green orc with a tooth necklace',
+                        value: 'ugly hideous green orc',
 
                     },
                     {
@@ -130,17 +132,13 @@ const adventurerCommand = {
                         value: 'disgusting goblin',
 
                     },
-                    {
-                        name: 'Fish',
-                        value: 'a person with a fish head with gills on the neck',
-
-                    },
                     { name: 'Cat', value: 'cute cat humanoid ' },
                     {
                         name: 'Frog',
                         value: 'pepe the frog',
 
-                    },)
+                    },
+                )
         ).addStringOption(option =>
             option.setName('patterns')
                 .setDescription('Select Patterns')
@@ -163,46 +161,50 @@ const adventurerCommand = {
 
                     },
                     { name: 'Mayan', value: 'Mayan face patterns' },
-                    { name: 'Aztec', value: 'Aztec face patterns' },)),
+                    { name: 'Aztec', value: 'Aztec face patterns' },
+                )
+        ),
 
     async execute(interaction: any) {
         const sex = interaction.options.getString("sex");
         const race = interaction.options.getString("race");
-        const skin = interaction.options.getString("skin");
         const pattern = interaction.options.getString("patterns");
-        const hair = interaction.options.getString("hair");
-        const eyes = interaction.options.getString("eyes");
         const occupation = interaction.options.getString("occupation");
 
         const prompt = {
-            "input": {
-                "prompt": `${createPrompt({ sex, race, skin, pattern, hair, eyes, occupation })}`,
-                "negative_prompt": "cartoon, imperfect, poor quality, saturated, unrealistic",
-                "width": 768,
-                "seed": 2,
-                "height": 768
-            }
+            prompt: `${createPrompt({ sex, race, pattern, occupation })}. Realist painting, Detailed, realistic, high quality, perfect, beautiful, saturated, perfect hands`,
+            "negative_prompt": "cartoon, imperfect, poor quality, saturated, unrealistic",
+            num_inference_steps: 100
         }
+
 
         console.log(prompt)
 
         await interaction.deferReply();
 
-        const embed = await createImage(prompt, MODEL)
-            .then((res: any) => {
-                return {
-                    title: 'Adventurer',
-                    description: prompt.input.prompt,
-                    image: {
-                        url: res.split("?")[0]
-                    }
-                };
+        const replicate = new Replicate({
+            auth: process.env.REPLICATE_API_TOKEN,
+        });
 
+        const output = await replicate.run(
+            "ai-forever/kandinsky-2:601eea49d49003e6ea75a11527209c4f510a93e2112c969d548fbb45b9c4f19f",
+            {
+                input: prompt
+            }
+        );
 
-            })
-            .catch((error: any) => interaction.channel.send(error.message));
+        console.log(output)
+
         try {
-            await interaction.editReply({ embeds: [embed] });
+            await interaction.editReply({
+                embeds: [{
+                    title: 'Adventurer',
+                    description: prompt.prompt,
+                    image: {
+                        url: output[0]
+                    }
+                }]
+            });
         } catch (e) {
             console.log(e);
         }

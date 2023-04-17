@@ -1,8 +1,5 @@
-// import fetch from 'node-fetch';
 import { SlashCommandBuilder } from "@discordjs/builders";
-// import { db } from "../../../server";
-
-
+// import { addPlayer } from "../../../prisma/index";
 
 const addressCommand = {
     data: new SlashCommandBuilder()
@@ -16,16 +13,10 @@ const addressCommand = {
 
         console.log(interaction.user.id)
 
-        // db.run('INSERT INTO users (user_id, stark_address) VALUES (?, ?)', [interaction.user.id, address], (err) => {
-        //     if (err) {
-        //         console.error(err);
-        //         interaction.reply('An error occurred while storing your user ID and Stark address.');
-        //     } else {
-        //         interaction.reply('Your user ID and Stark address have been stored successfully.');
-        //     }
-        // });
+        // await addPlayer(address, interaction.user.id)
 
-        // await interaction.reply('Pong!');
+
+        await interaction.reply('Successfully added!');
 
     },
 };
